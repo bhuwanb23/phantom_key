@@ -14,10 +14,10 @@ pub mod decoy;
 pub mod mapping;
 
 // Re-export main types
-pub use storage::{VaultStorage, VaultEntry, VaultMetadata, SecretType, MemoryStorage, SqliteStorage};
+pub use storage::{VaultStorage, VaultEntry, VaultMetadata, SecretType, MemoryStorage};
 pub use encryption::VaultEncryption;
-pub use handle::Handle;
-pub use decoy::{DecoyGenerator, DecoyRegistry, AwsAccessKeyGenerator, AwsSecretKeyGenerator, IbanGenerator, CreditCardGenerator, GenericDecoyGenerator};
+pub use handle::{Handle, HandleGenerator, HandleParseError};
+pub use decoy::{DecoyGenerator, DecoyRegistry};
 pub use mapping::{DecoyMap, DecoyManager};
 
 /// Vault error type
@@ -28,9 +28,12 @@ pub enum Error {
     #[error("Encryption error: {0}")]
     EncryptionError(String),
     #[error("Handle error: {0}")]
-    HandleError(String),
+    HandleError(#[from] HandleParseError),
     #[error("Decoy error: {0}")]
     DecoyError(String),
     #[error("Mapping error: {0}")]
     MappingError(String),
 }
+
+/// Vault result type
+pub type Result<T> = std::result::Result<T, Error>;
