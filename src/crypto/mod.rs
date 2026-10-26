@@ -12,20 +12,23 @@ pub mod threshold_dh;
 pub mod share_refresh;
 
 // Re-export main types
-pub use group::{GroupScalar, GroupElement};
-pub use dkg::{DKG, PartyContribution};
-pub use threshold_dh::{ThresholdDH, DLEQProof};
-pub use share_refresh::ShareManager;
+pub use group::{GroupScalar, GroupElement, GroupError, sum_elements, sum_scalars, multi_scalar_multiply};
+pub use dkg::{DKG, PartyContribution, DkgError};
+pub use threshold_dh::{ThresholdDH, DLEQProof, Partial, ThresholdDhClient, ThresholdDhError};
+pub use share_refresh::{ShareManager, SyncShareManager, AutoRefresh, EpochInfo, EpochKeyDerivation, ShareRefreshError};
 
 /// Cryptography error type
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
-    #[error("Invalid group operation")]
-    InvalidGroupOperation,
+    #[error("Group error: {0}")]
+    Group(#[from] GroupError),
     #[error("DKG error: {0}")]
-    DkgError(String),
+    Dkg(#[from] DkgError),
     #[error("Threshold DH error: {0}")]
-    ThresholdDhError(String),
+    ThresholdDh(#[from] ThresholdDhError),
     #[error("Share refresh error: {0}")]
-    ShareRefreshError(String),
+    ShareRefresh(#[from] ShareRefreshError),
 }
+
+/// Cryptography result type
+pub type Result<T> = std::result::Result<T, Error>;
