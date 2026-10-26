@@ -1,0 +1,48 @@
+# Phantom Key v2
+
+# Rust
+/target
+**/*.rs.bk
+Cargo.lock
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+/logs/
+/var/log/phantom-key/
+
+# Keys and secrets
+keys/
+*.key
+*.pem
+*.crt
+.env
+.env.local
+.env.*.local
+
+# Database
+*.db
+*.db-journal
+
+# Build artifacts
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test files
+*.test
+
+# Temporary files
+tmp/
+temp/

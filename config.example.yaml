@@ -1,0 +1,62 @@
+# Phantom Key v2 Configuration
+# Copy this to config.yaml and fill in your values
+
+# Number of parties and threshold for DKG
+parties: 5
+threshold: 3
+
+# Vault configuration
+vault:
+  # Storage backend: "memory" (for testing) or "sqlite" (for production)
+  storage: "sqlite"
+  # Path for SQLite storage
+  path: "/var/lib/phantom-key/vault.db"
+
+# Ledger configuration
+ledger:
+  # Storage backend: "memory" or "sqlite"
+  storage: "sqlite"
+  # Path for SQLite storage
+  path: "/var/log/phantom-key/ledger.db"
+
+# Share refresh configuration
+share_refresh:
+  # How often to refresh shares (seconds)
+  interval: 3600  # 1 hour
+  # How long to keep old shares for verification (seconds)
+  verification_period: 300  # 5 minutes
+
+# Provider configuration
+providers:
+  # AWS Bedrock
+  bedrock:
+    endpoint: "https://bedrock-runtime.us-east-1.amazonaws.com"
+    api_key: "${BEDROCK_API_KEY}"  # Set via environment variable
+    
+  # OpenAI
+  openai:
+    api_key: "${OPENAI_API_KEY}"  # Set via environment variable
+    
+  # Google Gemini
+  gemini:
+    api_key: "${GEMINI_API_KEY}"  # Set via environment variable
+
+# Egress Court configuration
+egress:
+  # Enable real-time TUI
+  tui_enabled: true
+  # Log all requests to ledger
+  log_all_requests: true
+  # Scan all payloads for secrets
+  scan_payloads: true
+
+# Security configuration
+security:
+  # Enable canary detection
+  canaries_enabled: true
+  # Canary types to generate
+  canary_types:
+    - "aws_access_key"
+    - "aws_secret_key"
+    - "iban"
+    - "credit_card"
