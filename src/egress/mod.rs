@@ -34,3 +34,6 @@ pub enum Error {
     #[error("TUI error: {0}")]
     TuiError(String),
 }
+
+/// Egress result type
+pub type Result<T> = std::result::Result<T, Error>;
